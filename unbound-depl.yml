@@ -1,0 +1,79 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: unbound-udp
+  namespace: unbound
+  annotations:
+    metallb.universe.tf/allow-shared-ip: key_dns
+spec:
+  selector:
+    app: docker-unbound
+  ports:
+    - name: udp53
+      port: 53
+      protocol: UDP
+  type: LoadBalancer
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: unbound-tcp
+  namespace: unbound
+  annotations:
+    metallb.universe.tf/allow-shared-ip: key_dns
+spec:
+  selector:
+    app: docker-unbound
+  ports:
+    - name: tcp53
+      port: 53
+      protocol: TCP
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: docker-unbound
+  namespace: unbound
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+       name: docker-unbound
+  template:
+    metadata:
+      labels:
+        name: docker-unbound
+        app: docker-unbound
+    spec:
+      volumes:
+      - name: conf-volume
+        emptyDir: {}
+      containers:
+        - name: unbound
+          imagePullPolicy: Never
+          image: olligator/unbound:latest
+          resources:
+            limits:
+              memory: "400Mi"
+              cpu: "1.5"
+            requests:
+              memory: "100Mi"
+              cpu: "0.1"
+          volumeMounts:
+          - name: conf-volume
+            mountPath: /opt/unbound/etc        
+        - name: exporter
+          imagePullPolicy: Never
+          image: olligator/exporter:latest
+          resources:
+            limits:
+              memory: "400Mi"
+              cpu: "1.5"
+            requests:
+              memory: "100Mi"
+              cpu: "0.1"
+          volumeMounts:
+          - name: conf-volume
+            mountPath: /opt/unbound/etc    
