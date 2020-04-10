@@ -52,7 +52,7 @@ spec:
         emptyDir: {}
       containers:
         - name: unbound
-          imagePullPolicy: Never
+#          imagePullPolicy: Never
           image: olligator/unbound:latest
           resources:
             limits:
@@ -65,7 +65,7 @@ spec:
           - name: conf-volume
             mountPath: /opt/unbound/etc        
         - name: exporter
-          imagePullPolicy: Never
+#          imagePullPolicy: Never
           image: olligator/exporter:latest
           resources:
             limits:
