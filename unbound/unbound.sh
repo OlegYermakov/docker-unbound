@@ -361,6 +361,8 @@ EOT
 fi
 
 mkdir -p /opt/unbound/etc/unbound/dev && \
+mkdir /opt/unbound/etc/unbound/conf.d && \
+mv /opt/unbound/*.conf /opt/unbound/etc/unbound/conf.d
 
 cp -a /dev/random /dev/urandom /opt/unbound/etc/unbound/dev/ && \
 wget https://www.internic.net/domain/named.cache -O /opt/unbound/etc/unbound/root.hints > /dev/null && \

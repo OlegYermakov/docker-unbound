@@ -31,6 +31,22 @@ spec:
       protocol: TCP
   type: LoadBalancer
 ---
+kind: Service
+apiVersion: v1
+metadata:
+  name: exporter
+  namespace: unbound
+  annotations:
+    metallb.universe.tf/allow-shared-ip: key_dns
+spec:
+  selector:
+    app: docker-unbound
+  ports:
+    - name: exporter
+      port: 9167
+      protocol: TCP
+  type: LoadBalancer
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:

@@ -29,5 +29,5 @@ RUN chmod +x /exporter.sh && \
     apk add --no-cache curl
 
 EXPOSE 9167/tcp
-#HEALTHCHECK --interval=5s --timeout=3s --start-period=5s CMD curl -s http://127.0.0.1:9167 -o /dev/null || exit 1
+HEALTHCHECK --interval=5s --timeout=3s --start-period=5s CMD curl -s http://127.0.0.1:9167 -o /dev/null || exit 1
 CMD ["/exporter.sh"]

@@ -97,7 +97,7 @@ RUN apk add --no-cache --update --virtual ldnsutils expat bash libevent perl ca-
         /var/tmp/* \
         /var/lib/apk/*
 
-COPY configs/*.conf /opt/unbound/etc/unbound/conf.d/
+COPY configs/*.conf /opt/unbound/
 
 COPY unbound.sh /
 RUN chmod +x /unbound.sh
