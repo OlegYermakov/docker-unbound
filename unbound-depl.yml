@@ -34,18 +34,20 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: exporter
+  name: unbound-exporter
   namespace: unbound
-  annotations:
-    metallb.universe.tf/allow-shared-ip: key_dns
+  labels:
+    prometheus-target: unbound-exporter
+#  annotations:
+#    metallb.universe.tf/allow-shared-ip: key_dns
 spec:
   selector:
     app: docker-unbound
   ports:
-    - name: exporter
-      port: 9167
+    - name: http-metrics
       protocol: TCP
-  type: LoadBalancer
+      port: 9167
+#  type: LoadBalancer
 ---
 apiVersion: apps/v1
 kind: Deployment
