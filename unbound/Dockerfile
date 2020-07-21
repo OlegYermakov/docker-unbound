@@ -2,8 +2,8 @@ FROM alpine:latest as openssl
 #FROM olligator/alpine-dev:latest as openssl
 LABEL maintainer="Oleg Ermakov"
 
-ENV VERSION_OPENSSL=openssl-1.1.1e \
-    SOURCE_OPENSSL=https://www.openssl.org/source/old/1.1.1/ \
+ENV VERSION_OPENSSL=openssl-1.1.1g \
+    SOURCE_OPENSSL=https://www.openssl.org/source/ \
     OPGP_OPENSSL=8657ABB260F056B1E5190839D9C4D26D0E604491
 
 WORKDIR /tmp/src
@@ -34,7 +34,7 @@ FROM alpine:latest as unbound
 LABEL maintainer="Oleg Ermakov"
 
 ENV NAME=unbound \
-    UNBOUND_VERSION=1.10.0 \
+    UNBOUND_VERSION=1.10.1 \
     UNBOUND_DOWNLOAD_URL=https://nlnetlabs.nl/downloads/unbound \
     AR=/usr/bin/gcc-ar \
     RANLIB=gcc-ranlib \
