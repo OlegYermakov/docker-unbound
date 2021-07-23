@@ -33,7 +33,7 @@ FROM alpine:3.13 as unbound
 LABEL maintainer="Oleg Ermakov"
 
 ENV NAME=unbound \
-    UNBOUND_VERSION=1.10.1 \
+    UNBOUND_VERSION=1.13.1 \
     UNBOUND_DOWNLOAD_URL=https://nlnetlabs.nl/downloads/unbound \
     AR=/usr/bin/gcc-ar \
     RANLIB=gcc-ranlib \
