@@ -2,7 +2,7 @@ FROM golang:alpine as build
 LABEL maintainer="Oleg Ermakov"
 
 WORKDIR /unbound_exporter
-RUN apk update && apk add git && \
+RUN apk update && apk add git go && \
     go get github.com/kumina/unbound_exporter && \
     CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app github.com/kumina/unbound_exporter
 
