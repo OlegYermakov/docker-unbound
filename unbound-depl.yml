@@ -30,25 +30,9 @@ spec:
       port: 53
       protocol: TCP
   type: LoadBalancer
+
 ---
-kind: Service
-apiVersion: v1
-metadata:
-  name: unbound-exporter
-  namespace: unbound
-  labels:
-    prometheus-target: unbound-exporter
-#  annotations:
-#    metallb.universe.tf/allow-shared-ip: key_dns
-spec:
-  selector:
-    app: docker-unbound
-  ports:
-    - name: http-metrics
-      protocol: TCP
-      port: 9167
-#  type: LoadBalancer
----
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -71,27 +55,19 @@ spec:
       containers:
         - name: unbound
  #         imagePullPolicy: Never
-          image: olligator/unbound:latest
-          resources:
-            limits:
-              memory: "400Mi"
-              cpu: "1.5"
-            requests:
-              memory: "100Mi"
-              cpu: "0.1"
-          volumeMounts:
-          - name: conf-volume
-            mountPath: /opt/unbound/etc        
-        - name: exporter
-#          imagePullPolicy: Never
-          image: olligator/exporter:latest
-          resources:
-            limits:
-              memory: "400Mi"
-              cpu: "1.5"
-            requests:
-              memory: "100Mi"
-              cpu: "0.1"
-          volumeMounts:
-          - name: conf-volume
-            mountPath: /opt/unbound/etc    
+          image: olligator/unbound:raspberry
+#          ports:
+#            - containerPort: 53
+#              protocol: TCP
+#            - containerPort: 53
+#              protocol: UDP
+#          resources:
+#            limits:
+#              memory: "400Mi"
+#              cpu: "1.5"
+#            requests:
+#              memory: "100Mi"
+#              cpu: "0.1"
+#          volumeMounts:
+#          - name: conf-volume
+#            mountPath: /opt/unbound/etc        

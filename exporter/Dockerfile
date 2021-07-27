@@ -1,8 +1,12 @@
-FROM golang:alpine as build
+FROM golang:1.16-alpine as builder
 LABEL maintainer="Oleg Ermakov"
 
 WORKDIR /unbound_exporter
-RUN apk update && apk add git go && \
+
+RUN apk update && \
+    apk add --no-cache git && \
+    apk add --no-cache bash && \
+    rm  -rf /tmp/../tmp/../tmp/../tmp/../tmp/* /var/cache/apk/* && \
     go get github.com/kumina/unbound_exporter && \
     CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app github.com/kumina/unbound_exporter
 

@@ -1,8 +1,8 @@
-#FROM alpine:latest as openssl
-FROM olligator/alpine-dev:latest as openssl
+FROM alpine:3.13 as openssl
+#FROM olligator/alpine-dev:latest as openssl
 LABEL maintainer="Oleg Ermakov"
 
-ENV VERSION_OPENSSL=openssl-1.1.1g \
+ENV VERSION_OPENSSL=openssl-1.1.1k \
     SOURCE_OPENSSL=https://www.openssl.org/source/ \
     OPGP_OPENSSL=8657ABB260F056B1E5190839D9C4D26D0E604491
 
@@ -13,15 +13,14 @@ RUN apk add --no-cache --update --virtual .build-deps alpine-sdk wget bash gnupg
     echo "`curl $SOURCE_OPENSSL$VERSION_OPENSSL.tar.gz.sha256`  ./openssl.tar.gz" | sha256sum -c - && \
     curl -L $SOURCE_OPENSSL$VERSION_OPENSSL.tar.gz.asc -o openssl.tar.gz.asc && \
     GNUPGHOME="$(mktemp -d)" && export GNUPGHOME && \
-    ( gpg --no-tty --keyserver ipv4.pool.sks-keyservers.net --recv-keys "$OPGP_OPENSSL" \
-    || gpg --no-tty --keyserver ha.pool.sks-keyservers.net --recv-keys "$OPGP_OPENSSL" ) && \
+    gpg --no-tty --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys "$OPGP_OPENSSL" && \
     gpg --batch --verify openssl.tar.gz.asc openssl.tar.gz && \
     tar xzf openssl.tar.gz && \
     cd $VERSION_OPENSSL && \
     ./config --prefix=/opt/openssl no-weak-ssl-ciphers no-ssl3 no-shared enable-ec_nistp_64_gcc_128 \
     -DOPENSSL_NO_HEARTBEATS -fstack-protector-strong && \
     make depend && \
-    make -j6 && \
+    make -j2 && \
     make install_sw && \
     apk del .build-deps && \
     rm -rf \
@@ -29,8 +28,8 @@ RUN apk add --no-cache --update --virtual .build-deps alpine-sdk wget bash gnupg
         /var/tmp/* \
         /var/lib/apk/*
 
-#FROM alpine:latest as nginx
-FROM olligator/alpine-dev:latest as nginx
+FROM alpine:3.13 as nginx
+#FROM olligator/alpine-dev:latest as nginx
 LABEL maintainer="Oleg Ermakov"
 
 #http://nginx.org/download/nginx-1.18.0.tar.gz
@@ -68,7 +67,7 @@ RUN apk add --no-cache --update --virtual .build-deps alpine-sdk wget bash linux
         /var/tmp/* \
         /var/lib/apk/*
 
-FROM alpine:latest
+FROM alpine:3.13
 LABEL maintainer="Oleg Ermakov"
 
 ENV NAME=docker-nginx \
