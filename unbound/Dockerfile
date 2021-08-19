@@ -44,7 +44,7 @@ ENV NAME=unbound \
 WORKDIR /tmp/src
 COPY --from=openssl /opt/openssl /opt/openssl
 
-RUN apk add --no-cache --update --virtual .build-deps alpine-sdk wget bash linux-headers libevent-dev expat-dev && \
+RUN apk add --no-cache --update --virtual .build-deps alpine-sdk wget bash linux-headers libevent-dev expat-dev nghttp2-dev && \
     curl -sSL "$UNBOUND_DOWNLOAD_URL/unbound-${UNBOUND_VERSION}.tar.gz" -o unbound.tar.gz && \
     echo "`curl $UNBOUND_DOWNLOAD_URL/unbound-${UNBOUND_VERSION}.tar.gz.sha256` *unbound.tar.gz" | sha256sum -c - && \
     tar xzf unbound.tar.gz && \
@@ -59,6 +59,7 @@ RUN apk add --no-cache --update --virtual .build-deps alpine-sdk wget bash linux
         --with-username=_unbound \
         --with-ssl=/opt/openssl \
         --with-libevent \
+        --with-libnghttp2 \
         --enable-event-api && \
     make -j6 install && \
     mv /opt/unbound/etc/unbound/unbound.conf /opt/unbound/etc/unbound/unbound.conf.example && \
