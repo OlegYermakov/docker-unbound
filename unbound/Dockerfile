@@ -33,7 +33,7 @@ FROM alpine:3.13 as unbound
 LABEL maintainer="Oleg Ermakov"
 
 ENV NAME=unbound \
-    UNBOUND_VERSION=1.13.1 \
+    UNBOUND_VERSION=1.13.2 \
     UNBOUND_DOWNLOAD_URL=https://nlnetlabs.nl/downloads/unbound \
     AR=/usr/bin/gcc-ar \
     RANLIB=gcc-ranlib \
@@ -88,7 +88,7 @@ WORKDIR /tmp/src
 
 COPY --from=unbound /opt /opt
 
-RUN apk add --no-cache --update --virtual ldnsutils expat bash libevent perl ca-certificates && \
+RUN apk add --no-cache --update --virtual ldnsutils expat bash libevent perl ca-certificates nghttp2-libs && \
     addgroup _unbound && \
     adduser -G _unbound -s /etc -D -H -h /dev/null _unbound && \
     rm -rf \

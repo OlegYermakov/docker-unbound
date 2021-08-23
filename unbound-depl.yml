@@ -54,13 +54,8 @@ spec:
         emptyDir: {}
       containers:
         - name: unbound
- #         imagePullPolicy: Never
-          image: olligator/unbound:raspberry
-#          ports:
-#            - containerPort: 53
-#              protocol: TCP
-#            - containerPort: 53
-#              protocol: UDP
+          imagePullPolicy: Always
+          image: olligator/unbound:1.13.2.nghttp2
 #          resources:
 #            limits:
 #              memory: "400Mi"
