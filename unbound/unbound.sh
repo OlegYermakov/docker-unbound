@@ -69,7 +69,7 @@ server:
     # Listen to for queries from clients and answer from this network interface
     # and port.
     interface: 0.0.0.0@53
-    #interface: ::@53
+    interface: ::@53
 
     # Rotates RRSet order in response (the pseudo-random number is taken from
     # the query ID, for speed and thread safety).
@@ -334,16 +334,16 @@ server:
     ###########################################################################
 
 	# Enable IPv4, "yes" or "no".
-	# do-ip4: yes
+	do-ip4: yes
 
 	# Enable IPv6, "yes" or "no".
-	# do-ip6: yes
+	do-ip6: yes
 
 	# Enable UDP, "yes" or "no".
-	# do-udp: yes
+	do-udp: yes
 
 	# Enable TCP, "yes" or "no".
-	# do-tcp: yes
+	do-tcp: yes
 
     ###########################################################################
     # LOCAL ZONE

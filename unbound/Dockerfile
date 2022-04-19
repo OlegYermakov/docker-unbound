@@ -2,7 +2,7 @@ FROM alpine:latest as openssl
 #FROM olligator/alpine-dev:latest as openssl
 LABEL maintainer="Oleg Ermakov"
 
-ENV VERSION_OPENSSL=openssl-1.1.1g \
+ENV VERSION_OPENSSL=openssl-1.1.1n \
     SOURCE_OPENSSL=https://www.openssl.org/source/ \
     OPGP_OPENSSL=8657ABB260F056B1E5190839D9C4D26D0E604491
 
@@ -13,7 +13,7 @@ RUN apk add --no-cache --update --virtual .build-deps alpine-sdk wget bash gnupg
     echo "`curl $SOURCE_OPENSSL$VERSION_OPENSSL.tar.gz.sha256`  ./openssl.tar.gz" | sha256sum -c - && \
     curl -L $SOURCE_OPENSSL$VERSION_OPENSSL.tar.gz.asc -o openssl.tar.gz.asc && \
     GNUPGHOME="$(mktemp -d)" && export GNUPGHOME && \
-    ( gpg --no-tty --keyserver ipv4.pool.sks-keyservers.net --recv-keys "$OPGP_OPENSSL" \
+    ( gpg --no-tty --keyserver hkps://keys.openpgp.org/ --recv-keys "$OPGP_OPENSSL" \
     || gpg --no-tty --keyserver ha.pool.sks-keyservers.net --recv-keys "$OPGP_OPENSSL" ) && \
     gpg --batch --verify openssl.tar.gz.asc openssl.tar.gz && \
     tar xzf openssl.tar.gz && \
@@ -34,7 +34,7 @@ FROM alpine:latest as unbound
 LABEL maintainer="Oleg Ermakov"
 
 ENV NAME=unbound \
-    UNBOUND_VERSION=1.10.1 \
+    UNBOUND_VERSION=1.15.0 \
     UNBOUND_DOWNLOAD_URL=https://nlnetlabs.nl/downloads/unbound \
     AR=/usr/bin/gcc-ar \
     RANLIB=gcc-ranlib \

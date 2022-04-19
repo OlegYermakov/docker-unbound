@@ -1,0 +1,7 @@
+version: "3"
+services:
+  unbound:
+    build: unbound/
+    ports:
+      - "53:53"
+    # image: unbound:v1
