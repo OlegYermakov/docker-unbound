@@ -13,8 +13,7 @@ RUN apk add --no-cache --update --virtual .build-deps alpine-sdk wget bash gnupg
     echo "`curl $SOURCE_OPENSSL$VERSION_OPENSSL.tar.gz.sha256`  ./openssl.tar.gz" | sha256sum -c - && \
     curl -L $SOURCE_OPENSSL$VERSION_OPENSSL.tar.gz.asc -o openssl.tar.gz.asc && \
     GNUPGHOME="$(mktemp -d)" && export GNUPGHOME && \
-    ( gpg --no-tty --keyserver hkps://keys.openpgp.org/ --recv-keys "$OPGP_OPENSSL" \
-    || gpg --no-tty --keyserver ha.pool.sks-keyservers.net --recv-keys "$OPGP_OPENSSL" ) && \
+    ( gpg --no-tty --keyserver hkps://keys.openpgp.org/ --recv-keys "$OPGP_OPENSSL") && \
     gpg --batch --verify openssl.tar.gz.asc openssl.tar.gz && \
     tar xzf openssl.tar.gz && \
     cd $VERSION_OPENSSL && \
